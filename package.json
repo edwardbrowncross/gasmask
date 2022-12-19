@@ -22,6 +22,7 @@
   "author": "Vance Lucas <vance@vancelucas.com>",
   "homepage": "https://github.com/vlucas/gasmask",
   "license": "BSD-3-Clause",
+  "files": ["dist/**/*"],
   "devDependencies": {
     "@types/jest": "^26.0.19",
     "jest": "^26.6.3",
