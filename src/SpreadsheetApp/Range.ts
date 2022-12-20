@@ -106,6 +106,10 @@ export default class Range {
     return this.rangeValues;
   }
 
+  getDisplayValues() {
+    return this.getValues();
+  }
+
   // @TODO: All of these...
   setFontWeight(weight: string) {
     return this;
