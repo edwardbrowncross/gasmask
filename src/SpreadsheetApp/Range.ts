@@ -114,10 +114,31 @@ export default class Range {
   setFontWeight(weight: string) {
     return this;
   }
+  setFontWeights(weights: string[][]) {
+    return this;
+  }
   setNumberFormat(format: string) {
     return this;
   }
   setDataValidation(rule: any) {
+    return this;
+  }
+  setBackground(color: string) {
+    return this;
+  }
+  setBackgrounds(colors: string[][]) {
+    return this;
+  }
+  setFontColor(color: string) {
+    return this;
+  }
+  setFontColors(colors: string[][]) {
+    return this;
+  }
+  setNote(note: string) {
+    return this;
+  }
+  setNotes(notes: string[][]) {
     return this;
   }
 }
