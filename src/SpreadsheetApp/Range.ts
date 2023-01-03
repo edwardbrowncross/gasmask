@@ -198,14 +198,14 @@ function getValuesFromA1Notation(values: any[][], textRange: string): any[][] {
 
   // Not enough rows in our data?
   if (values.length < endRow + 1) {
-    values = new Array(endRow + 1 - startRow).fill([]).map((emptyValue, index) => {
+    values = new Array(endRow + 1).fill([]).map((emptyValue, index) => {
       return values[index] || emptyValue;
     });
   }
 
   return values.slice(startRow, endRow + 1).map(function (i: any[]) {
     if (i.length < endCol + 1) {
-      const numCols = endCol + 1 - startCol;
+      const numCols = endCol + 1;
       // Not enough cols in our data?
       i = new Array(numCols <= 0 ? endCol : numCols).fill('').map((emptyValue, index) => {
         return i[index] || emptyValue;

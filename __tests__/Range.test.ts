@@ -26,13 +26,13 @@ describe('Range', () => {
     });
 
     it('should fill in values in rows with blanks when range is larger than values', () => {
-      const values = sheet.getRange('A1:J1').getValues();
+      const values = sheet.getRange('B1:K1').getValues();
 
       expect(values[0].length).toEqual(10);
     });
 
     it('should fill in values in columns with blanks when range is larger than values', () => {
-      const values = sheet.getRange('A1:A10').getValues();
+      const values = sheet.getRange('A2:A11').getValues();
 
       expect(values.length).toEqual(10);
     });
