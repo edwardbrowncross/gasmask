@@ -17,12 +17,19 @@ beforeEach(() => {
 
 describe('Range', () => {
   describe('getValues', () => {
-    it('should return full column of values in a1 notation', () => {
+    it('should return full column of values in a1 notation with automatic final row', () => {
       const values = sheet.getRange('B2:B').getValues();
       const sum = values.reduce((prev, amount) => prev + amount[0], 0);
 
       expect(values).toEqual([[1], [1], [1], [1], [1]]);
       expect(sum).toEqual(5);
+    });
+
+    it('should return full column of values in a1 notation with automatic final column', () => {
+      const values = sheet.getRange('B2:2').getValues();
+
+      // Return columns B, C, D
+      expect(values[0].length).toBe(3);
     });
 
     it('should fill in values in rows with blanks when range is larger than values', () => {

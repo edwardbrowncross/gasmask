@@ -185,10 +185,10 @@ function getValuesFromA1Notation(values: any[][], textRange: string): any[][] {
     endRow = ret[0];
     endCol = ret[1];
     if (endRow == -1) {
-      endRow = values.length;
+      endRow = values.length - 1;
     }
     if (endCol == -1) {
-      endCol = values.length;
+      endCol = values[0].length - 1;
     }
   } else {
     // only one cell
