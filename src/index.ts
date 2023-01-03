@@ -1,4 +1,5 @@
 import CacheServiceClass from './CacheService';
+import CalendarClass from './Calendar';
 import type HttpRequestType from './types/HttpRequest';
 import HttpResponseClass from './HttpResponse';
 import LoggerClass from './Logger';
@@ -16,6 +17,7 @@ export const PropertiesService = PropertiesServiceClass;
 export const Session = SessionClass;
 export const ScriptApp = ScriptAppClass;
 export const SpreadsheetApp = SpreadsheetAppInstance;
+export const Calendar = CalendarClass;
 export const UrlFetchApp = UrlFetchAppClass;
 export const User = UserClass;
 export type HttpRequest = HttpRequestType;
