@@ -107,7 +107,7 @@ export default class Range {
   }
 
   getDisplayValues() {
-    return this.getValues();
+    return this.getValues().map(row => row.map(toString));
   }
 
   // @TODO: All of these...
@@ -225,4 +225,17 @@ function cellToRoWCol(cell: string): [number, number] {
   column--;
 
   return [row, column];
+}
+
+function toString(value: any) {
+  if (value === true) {
+    return 'TRUE';
+  }
+  if (value === false) {
+    return 'FALSE';
+  }
+  if (value instanceof Date) {
+    return value.toISOString();
+  }
+  return String(value);
 }
