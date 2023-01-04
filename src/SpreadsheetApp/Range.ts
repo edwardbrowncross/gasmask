@@ -28,14 +28,7 @@ export default class Range {
     this.criteria = criteria;
 
     if (criteria.a1) {
-      this.rangeComputed = {
-        row: 0,
-        col: 0,
-        numRows: 0,
-        numColumns: 0,
-      };
-      this.rangeValues = getValuesFromA1Notation(this.values, criteria.a1);
-      return;
+      this.rangeComputed = computeRangeFromA1Notation(this.values, criteria.a1);
     } else {
       this.rangeComputed = {
         row: criteria.row ? criteria.row - 1 : 0,
@@ -146,11 +139,29 @@ export default class Range {
 /**
  * The "meat" of the Range slicing...
  */
-function getValuesWithCriteria(values: any[], c: RangeComputed): any[] {
-  const rows = values.slice(c.row, c.row + c.numRows);
-  const result = rows.map((row) => row.slice(c.col, c.col + c.numColumns));
+function getValuesWithCriteria(values: any[][], c: RangeComputed): any[][] {
+  const startRow = c.row;
+  const endRow = c.row + c.numRows - 1;
+  const startCol = c.col;
+  const endCol = c.col + c.numColumns - 1;
 
-  return result;
+  // Not enough rows in our data?
+  if (values.length < endRow + 1) {
+    values = new Array(endRow + 1).fill([]).map((emptyValue, index) => {
+      return values[index] || emptyValue;
+    });
+  }
+
+  return values.slice(startRow, endRow + 1).map(function (i: any[]) {
+    if (i.length < endCol + 1) {
+      const numCols = endCol + 1;
+      // Not enough cols in our data?
+      i = new Array(numCols <= 0 ? endCol : numCols).fill('').map((emptyValue, index) => {
+        return i[index] || emptyValue;
+      });
+    }
+    return i.slice(startCol, endCol + 1);
+  });
 }
 
 function letterToColumn(letter: string) {
@@ -167,7 +178,7 @@ function letterToColumn(letter: string) {
 /**
  * @link https://stackoverflow.com/a/58545538
  */
-function getValuesFromA1Notation(values: any[][], textRange: string): any[][] {
+function computeRangeFromA1Notation(values: any[][], textRange: string): RangeComputed {
   let startRow: number, startCol: number, endRow: number, endCol: number;
   let range = textRange.split(':');
   let ret = cellToRoWCol(range[0]);
@@ -195,24 +206,12 @@ function getValuesFromA1Notation(values: any[][], textRange: string): any[][] {
     endRow = startRow;
     endCol = startCol;
   }
-
-  // Not enough rows in our data?
-  if (values.length < endRow + 1) {
-    values = new Array(endRow + 1).fill([]).map((emptyValue, index) => {
-      return values[index] || emptyValue;
-    });
+  return {
+    row: startRow,
+    col: startCol,
+    numRows: 1 + endRow - startRow,
+    numColumns: 1 + endCol - startCol,
   }
-
-  return values.slice(startRow, endRow + 1).map(function (i: any[]) {
-    if (i.length < endCol + 1) {
-      const numCols = endCol + 1;
-      // Not enough cols in our data?
-      i = new Array(numCols <= 0 ? endCol : numCols).fill('').map((emptyValue, index) => {
-        return i[index] || emptyValue;
-      });
-    }
-    return i.slice(startCol, endCol + 1);
-  });
 }
 
 function cellToRoWCol(cell: string): [number, number] {
