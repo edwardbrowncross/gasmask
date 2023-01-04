@@ -70,26 +70,36 @@ export default class Range {
   }
 
   setValues(values: string[][]) {
-    this.values = values;
-    const rc = this.rangeComputed;
-    const currentValues = getValuesWithCriteria(this.values, this.rangeComputed);
+    const rc = { ...this.rangeComputed };
+    // If range is 1x1, then we need to set the range to the size of the values
+    if (rc.numRows === 1 && rc.numColumns === 1) {
+      rc.numRows = values.length;
+      rc.numColumns = values[0].length;
+    }
+    // For any other range size, the values must be the same size as the range
+    if (values.length !== rc.numRows) {
+      throw new Error(
+        `The number of rows in the data does not match the number of rows in the range. The data has ${values.length} but the range has ${rc.numRows}.`
+      );
+    }
+    if (values[0].length !== rc.numColumns) {
+      throw new Error(
+        `The number of columns in the data does not match the number of columns in the range. The data has ${values[0].length} but the range has ${rc.numColumns}.`
+      );
+    }
+    // Update locally cached values
+    for (let row = 0; row < rc.numRows; row++) {
+      this.values[rc.row + row].splice(rc.col, rc.numColumns, ...values[row])
+    }
+    this.rangeValues = getValuesWithCriteria(this.values, this.rangeComputed);
 
-    // Update Sheet
-    if (this.__sheet && values) {
-      for (let row = 0; row < values.length; row++) {
-        const rowValues = this.__sheet.rows[rc.row + 1];
-        const newValues = values[row];
+    if (!this.__sheet) {
+      return this;
+    }
 
-        // Range length check... (GAS does this too)
-        if (rowValues && newValues && rowValues.length !== newValues.length) {
-          throw new Error(
-            `The number of columns in the data does not match the number of columns in the range. The data has ${newValues.length} but the range has ${rowValues.length}.`
-          );
-        }
-
-        this.__sheet.rows[rc.row + 1] = newValues;
-      }
-      this.rangeValues = getValuesWithCriteria(this.values, this.rangeComputed);
+    // Update Sheet value
+    for (let row = 0; row < rc.numRows; row++) {
+      this.__sheet.rows[rc.row + row].splice(rc.col, rc.numColumns, ...values[row])
     }
 
     return this;

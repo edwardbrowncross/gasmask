@@ -60,5 +60,26 @@ describe('Range', () => {
         );
       }
     });
+
+    it('should update values when setting a 2D range of the same dimensions', () => {
+      const range = sheet.getRange('A2:B3');
+
+      expect(range.getValues()).toEqual([['2021-01-01', 1], ['2021-01-02', 1]]);
+
+      range.setValues([['2022-02-01', '2'], ['2022-02-02', '2']]);
+
+      // Values are updated within the range and in the original sheet
+      expect(range.getValues()).toEqual([['2022-02-01', '2'], ['2022-02-02', '2']]);
+      // expect(sheet.getRange('A2:B3').getValues()).toEqual([['2022-02-01', '2'], ['2022-02-02', '2']]);
+    });
+
+    it('should update values when writing 2D data into a single-cell range', () => {
+      const range = sheet.getRange('A2');
+
+      range.setValues([['2022-02-01', '2'], ['2022-02-02', '2']]);
+
+      const fullRange = sheet.getRange('A2:B3');
+      expect(fullRange.getValues()).toEqual([['2022-02-01', '2'], ['2022-02-02', '2']]);
+    })
   });
 });
