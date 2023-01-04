@@ -113,6 +113,31 @@ export default class Range {
     return this.getValues().map(row => row.map(toString));
   }
 
+  getRow () {
+    return this.rangeComputed.row + 1
+  }
+  getColumn () {
+    return this.rangeComputed.col + 1
+  }
+  getNumRows () {
+    return this.rangeComputed.numRows
+  }
+  getHeight () {
+    return this.rangeComputed.numRows
+  }
+  getNumColumns () {
+    return this.rangeComputed.numColumns
+  }
+  getWidth () {
+    return this.rangeComputed.numColumns
+  }
+  getLastRow () {
+    return this.rangeComputed.row + this.rangeComputed.numRows
+  }
+  getLastColumn () {
+    return this.rangeComputed.col + this.rangeComputed.numColumns
+  }
+
   // @TODO: All of these...
   setFontWeight(weight: string) {
     return this;

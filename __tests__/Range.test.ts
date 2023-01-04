@@ -16,6 +16,58 @@ beforeEach(() => {
 });
 
 describe('Range', () => {
+  describe('size functions', () => {
+    it('should return the correct dimensions for a 2d A1 notation range', () => {
+      const range = sheet.getRange('C4:E7');
+
+      expect(range.getRow()).toBe(4);
+
+      expect(range.getColumn()).toBe(3);
+
+      expect(range.getNumRows()).toBe(4);
+      expect(range.getHeight()).toBe(4);
+
+      expect(range.getNumColumns()).toBe(3);
+      expect(range.getWidth()).toBe(3);
+
+      expect(range.getLastRow()).toBe(7);
+
+      expect(range.getLastColumn()).toBe(5);
+    });
+
+    it('should return the correct dimensions for a single cell A1 notation range', () => {
+      const range = sheet.getRange('C4');
+
+      expect(range.getRow()).toBe(4);
+      expect(range.getLastRow()).toBe(4);
+      
+      expect(range.getColumn()).toBe(3);
+      expect(range.getLastColumn()).toBe(3);
+
+      expect(range.getNumRows()).toBe(1);
+      expect(range.getHeight()).toBe(1);
+
+      expect(range.getNumColumns()).toBe(1);
+      expect(range.getWidth()).toBe(1);
+    });
+
+    it('should return the correct dimensions for a range defined numerically', () => {
+      const range = sheet.getRange(4, 3, 4, 3);
+
+      expect(range.getRow()).toBe(4);
+      expect(range.getLastRow()).toBe(7);
+      
+      expect(range.getColumn()).toBe(3);
+      expect(range.getLastColumn()).toBe(5);
+
+      expect(range.getNumRows()).toBe(4);
+      expect(range.getHeight()).toBe(4);
+
+      expect(range.getNumColumns()).toBe(3);
+      expect(range.getWidth()).toBe(3);
+    });
+  });
+
   describe('getValues', () => {
     it('should return full column of values in a1 notation with automatic final row', () => {
       const values = sheet.getRange('B2:B').getValues();
