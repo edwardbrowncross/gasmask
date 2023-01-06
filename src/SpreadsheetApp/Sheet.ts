@@ -40,6 +40,15 @@ export default class Sheet {
     this.rows.forEach((row) => row.splice(column, 0, ''));
     return this;
   }
+  insertRowsAfter(row: number, count: number) {
+    const rowSize = this.rows.length ? this.rows[0].length : 1;
+    this.rows.splice(row, 0, ...Array(count).fill(Array(rowSize).fill('')));
+    return this;
+  }
+  insertColumnsAfter(column: number, count: number) {
+    this.rows.forEach((row) => row.splice(column, 0, ...Array(count).fill('')));
+    return this;
+  }
 
   getLastColumn() {
     return this.rows.length ? this.rows[0].length : 1;
