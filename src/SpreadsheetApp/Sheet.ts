@@ -21,7 +21,14 @@ export default class Sheet {
   getName() {
     return this.name;
   }
-  deleteRow() {}
+  deleteRow(row: number) {
+    this.rows.splice(row - 1, 1);
+    return this;
+  }
+  deleteColumn(column: number) {
+    this.rows.forEach((row) => row.splice(column - 1, 1));
+    return this;
+  }
 
   getLastColumn() {
     return this.rows.length ? this.rows[0].length : 1;
