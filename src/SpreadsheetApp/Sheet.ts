@@ -21,12 +21,23 @@ export default class Sheet {
   getName() {
     return this.name;
   }
+
   deleteRow(row: number) {
     this.rows.splice(row - 1, 1);
     return this;
   }
   deleteColumn(column: number) {
     this.rows.forEach((row) => row.splice(column - 1, 1));
+    return this;
+  }
+
+  insertRowAfter(row: number) {
+    const rowSize = this.rows.length ? this.rows[0].length : 1;
+    this.rows.splice(row, 0, Array(rowSize).fill(''));
+    return this;
+  }
+  insertColumnAfter(column: number) {
+    this.rows.forEach((row) => row.splice(column, 0, ''));
     return this;
   }
 
